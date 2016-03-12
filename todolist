@@ -1,0 +1,7 @@
+扩展script operator,支持使用jvm dynamic language来写mapper/reducer
+1. javascript(ok)
+2. nashorn for jdk8(ok)
+3. udf(ok)
+4. groovy
+
+迁移4399的日期虚拟列

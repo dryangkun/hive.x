@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.github.dryangkun</groupId>
+    <artifactId>hive.x</artifactId>
+    <version>0.1.0-hive1.2</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>hive.x-script-extension</artifactId>
+  <packaging>jar</packaging>
+  <name>Hive X Script Extension</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <outputDirectory>${project.parent.basedir}</outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.dryangkun</groupId>
+      <artifactId>hive.x-exec</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>org.codehaus.groovy</groupId>-->
+      <!--<artifactId>groovy-all</artifactId>-->
+      <!--<version>2.4.6</version>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+      <!--<groupId>org.develnext</groupId>-->
+      <!--<artifactId>jphp-core</artifactId>-->
+      <!--<version>0.7.1</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.develnext</groupId>-->
+      <!--<artifactId>jphp-zend-ext</artifactId>-->
+      <!--<version>0.7.1</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.develnext</groupId>-->
+      <!--<artifactId>jphp-json-ext</artifactId>-->
+      <!--<version>0.7.1</version>-->
+    <!--</dependency>-->
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <!--<repository>-->
+      <!--<id>jcenter</id>-->
+      <!--<url>http://jcenter.bintray.com</url>-->
+    <!--</repository>-->
+  </repositories>
+</project>
