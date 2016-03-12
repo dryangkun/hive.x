@@ -92,6 +92,7 @@ function cleanup(context) {
 见Example: [mapper.js](./script-extension/src/main/resources/hx/javascript/example/mapper.js)
 
 Usage:
+
 ```sql
 select 
 transform(a, b) 
@@ -99,7 +100,7 @@ using '#mapjs [r]hx/javascript/example/mapper.js'
 as (x array<string>, y int, z struct<z1:long,z2:double>) 
 from test_1
 ```
-* transform using格式: '#mapjs file-or-resource-js[ arg1 arg2...]'
+* transform using格式: '#mapjs file-or-resource.js[ arg1 arg2...]'
 * 如果js文件在classpath中,则使用'[r]'表示从classpath加载js文件
 * 如果是自己开发的js mapper文件,则需要使用hive的'add file ...'
 
@@ -124,6 +125,7 @@ function cleanup(context) {
 见Example: [reduce.js](./script-extension/src/main/resources/hx/javascript/example/reducer.js)
 
 Usage:
+
 ```sql
 from (
 select a, b from test_1 cluster by a 
@@ -131,6 +133,52 @@ select a, b from test_1 cluster by a
 select transform(a, b) using '#redjs 0 [r]hx/javascript/example/reducer.js' 
 as (x, y)
 ```
-* transform using格式: '#redjs key-index1[,key-index2...] file-or-resource-js[ arg1 arg2...]'
+* transform using格式: '#redjs key-index1[,key-index2...] file-or-resource.js[ arg1 arg2...]'
 * key-index: transform(...)括号内作为reduce过程中分组的key的下标,从0开始,多个使用逗号分隔
+
+## Nashorn Mapper/Reducer
+如果使用jdk1.8,则可以在maven编译时使用'-Pjdk8',生成Nashorn的Mapper/Reducer:
+
+- 更好的性能,因为直接使用函数对象,不是经过反射
+- 可以使用ClassFilter来控制哪些Java Class不能被javascript脚本使用
+
+* nashorn更多开发使用信息: [Nashorn Extensions](https://wiki.openjdk.java.net/display/Nashorn/Nashorn+extensions)
+
+### hive-site.xml
+
+```xml
+<property>
+    <name>hive.x.extension.extra.classes</name>
+    <value>
+        com.github.dryangkun.hive.nashorn.HxNashornMapper,
+        com.github.dryangkun.hive.nashorn.HxNashornReducer
+    </value>
+</property>
+```
+
+map transform using格式: '#mapnashorn file-or-resource.js[ arg1 arg2...]'
+
+reduce transform using格式: '#rednashorn key-index1[,key-index2...] file-or-resource.js[ arg1 arg2...]'
+
+### ClassFilter
+nashorn支持ClassFilter,来控制哪些类才允许被javascript脚本所使用.
+
+hive-site.xml增加class filters:
+
+```xml
+<property>
+    <name>hive.x.classfilter.classes</name>
+    <value>
+        com.github.dryangkun.hive.nashorn.HxNoThreadClassFilter,
+        com.github.dryangkun.hive.nashorn.HxAllClassFilter
+    </value>
+</property>
+```
+
+目前内置了三个ClassFilter:
+
+- HxNoThreadClassFilter: 将Thread, java.util.concurrent.*过滤掉
+- HxNoneThreadClassFilter: 全部过滤掉
+- HxAllClassFilter: 全部都不过滤掉
+
 
